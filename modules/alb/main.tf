@@ -1,4 +1,4 @@
-resource "aws_lb" "app_lb" {
+resource "aws_lb" "alb" {
   name               = "app-lb"
   internal           = false
   load_balancer_type = "application"
@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "app_tg" {
 }
 
 resource "aws_lb_listener" "app_listener" {
-  load_balancer_arn = aws_lb.app_lb.arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = 80
   protocol          = "HTTP"
 

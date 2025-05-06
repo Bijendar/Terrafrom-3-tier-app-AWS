@@ -10,6 +10,6 @@ output "rds_username" {
 
 output "rds_db_name" {
   description = "Database name"
-  value       = aws_db_instance.rds_instance.name
+  value       = aws_db_instance.rds_instance.db_name
 }
 

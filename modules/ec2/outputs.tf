@@ -1,4 +1,4 @@
 output "ec2_instance_ids" {
-  value = aws_instance.app[*].id
+  value = aws_instance.web[*].id
 }
 

@@ -18,7 +18,21 @@ resource "aws_subnet" "public" {
   }
 }
 
-output "vpc_id" {
-  value = aws_vpc.main.id
+resource "aws_subnet" "private" {
+  count             = length(var.private_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnets[count.index]
+  availability_zone = var.azs[count.index]
+
+  tags = {
+    Name = "${var.name}-private-${count.index + 1}"
+  }
 }
 
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${var.name}-igw"
+  }
+}

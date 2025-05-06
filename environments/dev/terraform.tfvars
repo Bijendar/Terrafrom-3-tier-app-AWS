@@ -1,17 +1,22 @@
 # dev environment variables
 
-vpc_cidr_block = "your-vpc-cidr-block-dev"
-subnet_cidr_block_public = "your-public-subnet-cidr-dev"
-subnet_cidr_block_private = "your-private-subnet-cidr-dev"
+# VPC Module Variables
+vpc_cidr_block = "10.0.0.0/16"
 
+
+public_subnets  = ["10.0.1.0/24","10.0.2.0/24"]
+private_subnets = ["10.0.3.0/24","10.0.4.0/24"]
+
+# EC2 Module Varibles
 ec2_instance_type = "t2.micro"
-ec2_key_name = "your-key-name"
+ec2_key_name = "Terraform-Demo"
+ec2_ami_id = "ami-08c40ec9ead489470"
+ec2_instance_count = 4
 
-rds_db_name = "dev-db-name"
-rds_db_user = "your-db-user"
-rds_db_password = "your-db-password"
-rds_security_group_id = "your-security-group-id-dev"
-rds_subnet_ids = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
+azs = ["us-east-1a","us-east-1b"]
 
-alb_security_group_id = "your-alb-sg-id-dev"
-
+# RDS Module Variables
+db_name = "Terrafrom-Demodb"
+db_user = "Terraform"
+db_password = "terraform"
+subnet_ids = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
