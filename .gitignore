@@ -2,18 +2,16 @@
 *.tfstate
 *.tfstate.backup
 
+# Ignore .terraform directory (all environments)
 .terraform/
 
 # Terraform plan files
 *.tfplan
 
-# Ignore .terraform directory inside the dev environment
-environments/dev/.terraform/
-
 # For all .tfvars files in sub-directories
 *.tfvars
 
-*.terraform/
+# Optionally, you can keep environment-specific .terraform directory ignore as well, but it's not needed. 
+environments/dev/.terraform/
 
-
-
+ 
