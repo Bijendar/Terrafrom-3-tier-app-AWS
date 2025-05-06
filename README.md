@@ -1,32 +1,42 @@
 🚀 3-Tier Architecture on AWS using Terraform 🌐
 📋 Overview
-This project deploys a 3-Tier Architecture on AWS using Terraform. It demonstrates how to configure and provision the following infrastructure components:
+This project deploys a 3-Tier Architecture on AWS using Terraform, demonstrating the configuration and provisioning of the following infrastructure components:
 
 🌐 VPC (Virtual Private Cloud): A private network within AWS.
 
-🖥️ EC2: Virtual servers to run applications.
+🖥️ EC2 (Elastic Compute Cloud): Virtual servers to run applications.
 
 💾 RDS (Relational Database Service): Managed MySQL database.
 
 🔄 ALB (Application Load Balancer): Distributes incoming application traffic.
 
-This project is structured to support both Development (dev) and Production (prod) environments, allowing easy configuration and deployment of infrastructure in multiple environments.
+🌐 Internet Gateway (IG): Enables internet access for the public subnets in the VPC.
+
+This project supports Development (dev) and Production (prod) environments, making it easy to deploy infrastructure across different environments.
 
 🔧 Architecture
-This project follows a typical 3-tier application architecture:
+This project follows a 3-Tier Application Architecture:
 
-🖥️ Front-end Tier (ALB): An Application Load Balancer (ALB) distributes the incoming application traffic to the EC2 instances.
+🖥️ Front-end Tier (ALB)
 
-⚙️ Application Tier (EC2): EC2 instances run the application logic.
+The Application Load Balancer (ALB) distributes incoming traffic to the EC2 instances.
 
-💾 Database Tier (RDS): An RDS MySQL Database stores application data.
+⚙️ Application Tier (EC2)
+
+EC2 instances host and run your application logic.
+
+💾 Database Tier (RDS)
+
+RDS MySQL Database stores application data.
+
+🌐 Internet Gateway (IG)
+
+IG provides internet connectivity for EC2 instances in the public subnet.
 
 All components are deployed within a VPC (Virtual Private Cloud) to ensure isolation and security.
 
 📂 Directory Structure
-The directory structure of this repository is organized as follows:
-
-r
+plaintext
 Copy
 Edit
 terraform-3tier-app/
@@ -53,99 +63,105 @@ terraform-3tier-app/
 │   │   ├── main.tf                # RDS instance setup
 │   │   ├── outputs.tf             # RDS outputs
 │   │   └── variables.tf           # RDS variables
-│   └── vpc
-│       ├── main.tf                # VPC setup
-│       ├── outputs.tf             # VPC outputs
-│       └── variables.tf           # VPC variables
+│   ├── vpc
+│   │   ├── main.tf                # VPC setup
+│   │   ├── outputs.tf             # VPC outputs
+│   │   └── variables.tf           # VPC variables
+│   └── igw
+│       ├── main.tf                # IG setup
+│       ├── outputs.tf             # IG outputs
+│       └── variables.tf           # IG variables
 ├── outputs.tf                     # Root-level outputs
 └── variables.tf                   # Root-level variables
 🔑 Key Files
-main.tf: Contains the root infrastructure setup, including calling different modules for VPC, EC2, RDS, and ALB.
+main.tf: Root configuration calling different modules for VPC, EC2, RDS, ALB, and IG.
 
-variables.tf: Contains all variable definitions for the root configuration.
+variables.tf: Defines variables for root configuration.
 
-outputs.tf: Specifies the outputs that Terraform will return after deployment (e.g., public IP addresses, RDS endpoint, etc.).
+outputs.tf: Specifies Terraform outputs (e.g., public IP addresses, RDS endpoint).
 
-terraform.tfvars: Contains environment-specific values for dev and prod environments (e.g., VPC CIDR, EC2 instance types, RDS credentials).
+terraform.tfvars: Environment-specific values (e.g., VPC CIDR, EC2 types, RDS credentials).
+
+igw/main.tf: Configures and attaches the Internet Gateway (IG) to the VPC.
 
 🛠️ Prerequisites
-Before running the Terraform code, make sure you have the following:
+Ensure you have the following before running the Terraform code:
 
-Terraform: Install Terraform by following the official documentation: Terraform Installation.
+Terraform: Install Terraform by following official documentation.
 
-AWS Account: Ensure you have access to an AWS account and have IAM permissions to create VPC, EC2, RDS, and ALB resources.
+AWS Account: Ensure you have IAM permissions to create AWS resources.
 
-AWS CLI: Install and configure AWS CLI with your credentials: AWS CLI Configuration.
+AWS CLI: Install and configure AWS CLI with your credentials. AWS CLI Setup.
 
 🚀 How to Use
 1️⃣ Clone the Repository
-Clone this repository to your local machine:
+Clone the repository to your local machine:
 
 bash
 Copy
 Edit
-git clone https://github.com/your-username/terraform-3tier-app.git
+git clone https://github.com/Bijendar/Terrafrom-3-tier-app-AWS.git
 cd terraform-3tier-app
 2️⃣ Modify Variables
-In the environments/dev/terraform.tfvars and environments/prod/terraform.tfvars files, update the following values with your environment-specific configurations:
+Update the terraform.tfvars in the environments/dev and environments/prod directories:
 
-vpc_cidr_block: CIDR block for the VPC.
+vpc_cidr_block: CIDR block for VPC.
 
-subnet_cidr_block_public: CIDR block for the public subnet.
+subnet_cidr_block_public: CIDR block for public subnet.
 
-subnet_cidr_block_private: CIDR block for the private subnet.
+subnet_cidr_block_private: CIDR block for private subnet.
 
 ec2_instance_type: EC2 instance type (e.g., t2.micro).
 
-rds_db_name, rds_db_user, rds_db_password: RDS database name, user, and password.
+rds_db_name, rds_db_user, rds_db_password: RDS database details.
 
-rds_security_group_id, rds_subnet_ids: Security group ID and subnet IDs for RDS.
-
-alb_security_group_id: Security group ID for the Application Load Balancer.
+alb_security_group_id, igw_security_group_id: Security groups for ALB and IG.
 
 3️⃣ Initialize Terraform
-Run terraform init to initialize Terraform and download the necessary provider plugins:
+Initialize Terraform to download necessary provider plugins:
 
 bash
 Copy
 Edit
 terraform init
 4️⃣ Plan the Infrastructure
-Run terraform plan to review the changes Terraform will make to your AWS account:
+Review the changes Terraform will make to your AWS account:
 
 bash
 Copy
 Edit
 terraform plan -var-file=environments/dev/terraform.tfvars
 5️⃣ Apply the Infrastructure
-Run terraform apply to create the infrastructure on AWS:
+Deploy the infrastructure to AWS:
 
 bash
 Copy
 Edit
 terraform apply -var-file=environments/dev/terraform.tfvars
-Terraform will prompt you to confirm the changes. Type yes to proceed with the deployment.
+Terraform will prompt you to confirm. Type yes to proceed.
 
 6️⃣ Verify the Deployment
-Once the infrastructure is deployed, you can verify the following:
+After deployment, verify the following:
 
-EC2 instances: Check if the EC2 instances are running.
+EC2 Instances: Ensure EC2 instances are running.
 
-RDS database: Verify the RDS database is available.
+RDS Database: Verify the RDS instance is available.
 
-ALB: Access the ALB to ensure it's distributing traffic.
+ALB: Check if the ALB is distributing traffic correctly.
+
+Internet Gateway: Confirm the IG is attached and providing internet access.
 
 7️⃣ Destroy the Infrastructure
-To clean up the resources, run terraform destroy:
+To clean up, run:
 
 bash
 Copy
 Edit
 terraform destroy -var-file=environments/dev/terraform.tfvars
 💡 Notes
-This setup assumes that you have an AWS account and the necessary IAM roles to create resources.
+Ensure you have the necessary IAM roles and AWS credentials.
 
-Always keep your AWS credentials safe and avoid hardcoding them in Terraform files. Use AWS CLI or IAM roles for accessing AWS.
+Never hardcode AWS credentials in your Terraform files; use IAM roles or AWS CLI for secure access.
 
 ✨ Contributing
-Feel free to fork the repository, make changes, and submit pull requests. If you encounter any issues, feel free to open an issue on GitHub.
+Feel free to fork the repository, make changes, and submit pull requests. If you encounter any issues, open an issue on GitHub.

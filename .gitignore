@@ -1,0 +1,19 @@
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+
+.terraform/
+
+# Terraform plan files
+*.tfplan
+
+# Ignore .terraform directory inside the dev environment
+environments/dev/.terraform/
+
+# For all .tfvars files in sub-directories
+*.tfvars
+
+*.terraform/
+
+
+
