@@ -1,4 +1,5 @@
-provider "aws" {
+# always use terraform {} block for version pin krne ke liye  and Remote backend configuration allow karta hai (like S3 state storage)
+provider "aws" {                       
   region = var.aws_region
 }
 
